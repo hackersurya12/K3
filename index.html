@@ -5,56 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SURYA AK WINGO</title>
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'El Messiri', sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
-            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaUefxA6uYUk7SNTE-zautkRqmg6CK-4irbhgcysqWRJRbSK0tnS8hp_XV&s=10') no-repeat center center/cover;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            color: white;
         }
-      
 
         .container {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            width: 320px;
-            color: white;
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
         }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 15s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
         .result-box {
-            margin: 20px 0;
-            font-size: 20px;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .result-text {
-            color: white;
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-label {
             font-weight: bold;
+            color: #a1a1a1;
+        }
+
+        .info-value {
+            font-weight: bold;
+        }
+
+        #period {
+            color: #4ECDC4;
+        }
+
+        #timer {
+            color: #FF6B6B;
+        }
+
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .history-container {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .history-item {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-
-   <!--Ye website Team SRS ne leak ki hai aur aise saari websites ka source bhi leak hoga. DM karein for more source code aur follow karein @enzosrs -->
-   <!-- This Web Free By #enzo #dev-->
-
     <div class="container">
-        <h1>SURYA AK K3</h1>
+        <h1><i class="fas fa-dice"></i> SURYA AK WINGO</h1>
+        
         <div class="result-box">
-            <p>Period: <span id="period">000000</span></p>
-            <p>Timer: <span id="timer">00:60</span></p>
-            <p>Result: <span id="result" class="result-text">Pending...</span></p>
+            <div class="info-item">
+                <span class="info-label">Period:</span>
+                <span class="info-value" id="period">000000</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Next Result:</span>
+                <span class="info-value" id="timer">00:60</span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <div style="font-size: 14px; color: #a1a1a1; margin-bottom: 5px;">Current Result</div>
+                <div id="result" class="result-text">Pending...</div>
+            </div>
+        </div>
+        
+        <div class="history-container" id="history">
+            <!-- History items will be added here by JavaScript -->
+        </div>
+        
+        <div class="footer">
+            <i class="far fa-copyright"></i> 2025 SURYA AK WINGO
         </div>
     </div>
-   <!--Ye website Team SRS ne leak ki hai aur aise saari websites ka source bhi leak hoga. DM karein for more source code aur follow karein @enzosrs -->
-   <!-- This Web Free By #enzo #dev-->
+
     <script>
-        let lastPeriod = ""; 
+        let lastPeriod = "";
+        let resultHistory = [];
+        const maxHistory = 0;
 
         function updatePeriodAndTimer() {
             let now = new Date();
@@ -64,13 +182,15 @@
             let minutes = calendar.getMinutes();
             let totalMinutes = calendar.getHours() * 60 + minutes;
 
-            let periodNumber = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' })
-                .format(calendar)
-                .replace(/\//g, '') + "1000" + (10001 + totalMinutes);
+            let periodNumber = new Intl.DateTimeFormat('en-GB', { 
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit' 
+            }).format(calendar).replace(/\//g, '') + "1000" + (10001 + totalMinutes);
 
             if (periodNumber !== lastPeriod) {
                 lastPeriod = periodNumber;
-                generateResult(); 
+                generateResult(periodNumber); 
             }
 
             document.getElementById("period").innerText = periodNumber;
@@ -79,15 +199,70 @@
             setTimeout(updatePeriodAndTimer, 1000);
         }
 
-        function generateResult() {
-            let randomNumber = Math.floor(Math.random() * 100);
+        function generateResult(periodId) {
+            // Seed the random number generator with the period ID for consistent results
+            let seed = parseInt(periodId.slice(-5));
+            let randomNumber = Math.floor(Math.sin(seed) * 10000) % 100;
+            if (randomNumber < 0) randomNumber = -randomNumber;
+            
             let oddEven = randomNumber % 2 === 0 ? "EVEN" : "ODD";
-            document.getElementById("result").innerText = oddEven;
+            let resultElement = document.getElementById("result");
+            
+            resultElement.innerText = oddEven;
+            resultElement.style.color = oddEven === "EVEN" ? "#4ECDC4" : "#FF6B6B";
+            resultElement.style.textShadow = oddEven === "EVEN" 
+                ? "0 0 10px rgba(78, 205, 196, 0.5)" 
+                : "0 0 10px rgba(255, 107, 107, 0.5)";
+            
+            // Add to history
+            resultHistory.unshift({
+                period: periodId,
+                result: oddEven,
+                number: randomNumber,
+                time: new Date().toLocaleTimeString()
+            });
+            
+            if (resultHistory.length > maxHistory) {
+                resultHistory.pop();
+            }
+            
+            updateHistoryDisplay();
         }
 
-        updatePeriodAndTimer();
+        function updateHistoryDisplay() {
+            const historyContainer = document.getElementById("history");
+            historyContainer.innerHTML = '';
+            
+            resultHistory.forEach(item => {
+                const historyItem = document.createElement("div");
+                historyItem.className = "history-item";
+                historyItem.innerHTML = `
+                    <div>${item.number}</div>
+                    <small style="color: ${item.result === "EVEN" ? '#4ECDC4' : '#FF6B6B'}; font-size: 12px;">
+                        ${item.result}
+                    </small>
+                `;
+                historyItem.style.border = `1px solid ${item.result === "EVEN" ? 'rgba(78, 205, 196, 0.3)' : 'rgba(255, 107, 107, 0.3)'}`;
+                historyContainer.appendChild(historyItem);
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePeriodAndTimer();
+            
+            // Load history from localStorage if available
+            const savedHistory = localStorage.getItem('wingoHistory');
+            if (savedHistory) {
+                resultHistory = JSON.parse(savedHistory);
+                updateHistoryDisplay();
+            }
+            
+            // Save history to localStorage when page closes
+            window.addEventListener('beforeunload', function() {
+                localStorage.setItem('wingoHistory', JSON.stringify(resultHistory));
+            });
+        });
     </script>
-   <!--Ye website Team SRS ne leak ki hai aur aise saari websites ka source bhi leak hoga. DM karein for more source code aur follow karein @enzosrs -->
-   <!-- This Web Free By #enzo #dev-->
 </body>
 </html>
