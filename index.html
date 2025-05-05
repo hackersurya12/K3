@@ -175,7 +175,7 @@
             let result;
             
             if (predictionValue === 0 || predictionValue === 5) {
-                result = "GREEN";
+                result = "ODD";
             } else if (predictionValue % 2 === 0) {
                 result = "EVEN";
             } else {
@@ -187,7 +187,7 @@
             resultElement.innerText = result;
             
             // Set color based on result type
-            if (result === "GREEN") {
+            if (result === "ODD") {
                 resultElement.style.color = "#50C878";
                 resultElement.style.textShadow = "0 0 10px rgba(80, 200, 120, 0.5)";
             } else if (result === "EVEN") {
