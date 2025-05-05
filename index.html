@@ -172,7 +172,7 @@
     <script>
         let lastPeriod = "";
         let resultHistory = [];
-        const maxHistory = 0;
+        const maxHistory = 10; // Show last 10 results
 
         function updatePeriodAndTimer() {
             let now = new Date();
@@ -200,25 +200,48 @@
         }
 
         function generateResult(periodId) {
-            // Seed the random number generator with the period ID for consistent results
-            let seed = parseInt(periodId.slice(-5));
-            let randomNumber = Math.floor(Math.sin(seed) * 10000) % 100;
-            if (randomNumber < 0) randomNumber = -randomNumber;
+            // Phalodi prediction method based on last 4 digits
+            const lastFourDigits = periodId.slice(-4);
+            const digits = lastFourDigits.split('').map(Number);
             
-            let oddEven = randomNumber % 2 === 0 ? "EVEN" : "ODD";
+            // Calculate prediction value using Phalodi formula
+            const sum = digits.reduce((a, b) => a + b, 0);
+            const product = digits.reduce((a, b) => a * b, 1);
+            const predictionValue = (sum + product) % 10;
+            
+            // Determine result based on prediction value
+            let result;
+            let resultNumber = predictionValue;
+            
+            if (predictionValue === 0 || predictionValue === 5) {
+                result = "GREEN";
+            } else if (predictionValue % 2 === 0) {
+                result = "EVEN";
+            } else {
+                result = "ODD";
+            }
+            
+            // Update result display
             let resultElement = document.getElementById("result");
+            resultElement.innerText = result;
             
-            resultElement.innerText = oddEven;
-            resultElement.style.color = oddEven === "EVEN" ? "#4ECDC4" : "#FF6B6B";
-            resultElement.style.textShadow = oddEven === "EVEN" 
-                ? "0 0 10px rgba(78, 205, 196, 0.5)" 
-                : "0 0 10px rgba(255, 107, 107, 0.5)";
+            // Set color based on result type
+            if (result === "GREEN") {
+                resultElement.style.color = "#50C878";
+                resultElement.style.textShadow = "0 0 10px rgba(80, 200, 120, 0.5)";
+            } else if (result === "EVEN") {
+                resultElement.style.color = "#4ECDC4";
+                resultElement.style.textShadow = "0 0 10px rgba(78, 205, 196, 0.5)";
+            } else {
+                resultElement.style.color = "#FF6B6B";
+                resultElement.style.textShadow = "0 0 10px rgba(255, 107, 107, 0.5)";
+            }
             
             // Add to history
             resultHistory.unshift({
                 period: periodId,
-                result: oddEven,
-                number: randomNumber,
+                result: result,
+                number: resultNumber,
                 time: new Date().toLocaleTimeString()
             });
             
@@ -227,6 +250,9 @@
             }
             
             updateHistoryDisplay();
+            
+            // Save to localStorage
+            localStorage.setItem('wingoHistory', JSON.stringify(resultHistory));
         }
 
         function updateHistoryDisplay() {
@@ -236,21 +262,30 @@
             resultHistory.forEach(item => {
                 const historyItem = document.createElement("div");
                 historyItem.className = "history-item";
+                
+                // Set color based on result type
+                let color;
+                if (item.result === "GREEN") {
+                    color = "#50C878";
+                } else if (item.result === "EVEN") {
+                    color = "#4ECDC4";
+                } else {
+                    color = "#FF6B6B";
+                }
+                
                 historyItem.innerHTML = `
                     <div>${item.number}</div>
-                    <small style="color: ${item.result === "EVEN" ? '#4ECDC4' : '#FF6B6B'}; font-size: 12px;">
+                    <small style="color: ${color}; font-size: 12px;">
                         ${item.result}
                     </small>
                 `;
-                historyItem.style.border = `1px solid ${item.result === "EVEN" ? 'rgba(78, 205, 196, 0.3)' : 'rgba(255, 107, 107, 0.3)'}`;
+                historyItem.style.border = `1px solid ${color}33`; // Add opacity to border color
                 historyContainer.appendChild(historyItem);
             });
         }
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            updatePeriodAndTimer();
-            
             // Load history from localStorage if available
             const savedHistory = localStorage.getItem('wingoHistory');
             if (savedHistory) {
@@ -258,10 +293,7 @@
                 updateHistoryDisplay();
             }
             
-            // Save history to localStorage when page closes
-            window.addEventListener('beforeunload', function() {
-                localStorage.setItem('wingoHistory', JSON.stringify(resultHistory));
-            });
+            updatePeriodAndTimer();
         });
     </script>
 </body>
